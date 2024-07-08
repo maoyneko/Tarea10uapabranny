@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inicio de Sesión y Menú</title>
+    <style>
+        body { text-align: center; }
+        img { width: 200px; height: auto; }
+        #loginForm { /* Mostrar formulario al inicio */ } 
+        #menu { display: none; } /* Ocultar menú al inicio */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #333;
+            padding: 10px;
+            background-color: white;
+            z-index: 1000;
+        }
+        .popup img {
+            width: 100%;
+            height: auto;
+        }
+        .popup-close {
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="logo.png" alt="Logo de la aplicación"> <br>
+    <div id="loginForm">
+        <h2>Bienvenido</h2>
+        <form>
+            <label for="usuario">Usuario:</label><br>
+            <input type="text" id="usuario" name="usuario"><br>
+            <label for="contrasena">Contraseña:</label><br>
+            <input type="password" id="contrasena" name="contrasena"><br><br>
+            <input type="submit" value="Entrar">
+        </form>
+    </div>
+
+    <div id="menu">
+        <h2>Bienvenido a tu menú, <span id="nombreUsuario"></span></h2>
+        <nav>
+            <button class="tarea-btn" data-img="imagen1.jpg">Tarea 1</button>
+            <button class="tarea-btn" data-img="imagen2.jpg">Tarea 2</button>
+            <button class="tarea-btn" data-img="imagen3.jpg">Tarea 3</button>
+        </nav>
+    </div>
+
+    <div id="popup" class="popup">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <img id="popup-img" src="" alt="Tarea">
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const menu = document.getElementById("menu");
+        const nombreUsuarioSpan = document.getElementById("nombreUsuario");
+        const popup = document.getElementById("popup");
+        const popupImg = document.getElementById("popup-img");
+
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById("usuario").value;
+            const contrasena = document.getElementById("contrasena").value;
+
+            // Lógica de validación (SIMULACIÓN)
+            const usuariosValidos = {
+                "branny": "1234",
+                "otroUsuario": "contraseña"
+            };
+
+            if (usuariosValidos[usuario] === contrasena) {
+                loginForm.style.display = "none"; // Ocultar formulario
+                menu.style.display = "block";     // Mostrar menú
+                nombreUsuarioSpan.textContent = usuario;
+            } else {
+                alert("Usuario o contraseña incorrectos.");
+            }
+        });
+
+        const tareaButtons = document.querySelectorAll(".tarea-btn");
+        tareaButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const imgSrc = this.getAttribute("data-img");
+                popupImg.src = imgSrc;
+                popup.style.display = "block";
+            });
+        });
+
+        function closePopup() {
+            popup.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
+
